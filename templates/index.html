@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>🌦 Weather Forecast AI</h1>
+        <p>Real-Time Weather Forecast with AI Insights</p>
+    </header>
+
+    <main>
+
+        <section class="search-section">
+
+            <form method="POST">
+
+    <input
+        type="text"
+        name="city"
+        placeholder="Enter city name"
+        required
+    >
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+        </section>
+
+        <section class="weather-section">
+
+    <h2>Weather Information</h2>
+
+    {% if city %}
+
+        <p>
+            You searched for:
+            <strong>{{ city }}</strong>
+        </p>
+
+    {% else %}
+
+        <p>
+            Search for a city to view the weather.
+        </p>
+
+    {% endif %}
+
+</section>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
