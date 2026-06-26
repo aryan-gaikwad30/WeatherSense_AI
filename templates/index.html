@@ -35,22 +35,35 @@
 
         </section>
 
-        <section class="weather-section">
+<section class="weather-section">
 
     <h2>Weather Information</h2>
 
-    {% if city %}
+    {% if weather %}
 
-        <p>
-            You searched for:
-            <strong>{{ city }}</strong>
-        </p>
+        {% if weather.cod == 200 %}
+
+            <h3>{{ weather.name }}</h3>
+
+            <p><strong>Temperature:</strong> {{ weather.main.temp }} °C</p>
+
+            <p><strong>Condition:</strong> {{ weather.weather[0].description }}</p>
+
+            <p><strong>Humidity:</strong> {{ weather.main.humidity }} %</p>
+
+            <p><strong>Wind Speed:</strong> {{ weather.wind.speed }} m/s</p>
+
+            <p><strong>Visibility:</strong> {{ weather.visibility }} m</p>
+
+        {% else %}
+
+            <p>{{ weather.message }}</p>
+
+        {% endif %}
 
     {% else %}
 
-        <p>
-            Search for a city to view the weather.
-        </p>
+        <p>Search for a city to view the weather.</p>
 
     {% endif %}
 
