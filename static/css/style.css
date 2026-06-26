@@ -1,0 +1,276 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#e9f3ff;
+
+    color:#222;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+.container{
+
+    width:100%;
+
+    max-width:700px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:40px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+
+}
+
+header{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+header h1{
+
+    font-size:2.2rem;
+
+    margin-bottom:10px;
+
+}
+
+header p{
+
+    color:#666;
+
+}
+
+.search-section{
+
+    margin-bottom:35px;
+
+}
+
+form{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+input{
+
+    flex:1;
+
+    padding:14px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+}
+
+button{
+
+    background:#0077ff;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#005fd6;
+
+}
+
+.weather-section{
+
+    line-height:2;
+
+}
+
+.weather-section h2{
+
+    margin-bottom:15px;
+
+}
+
+.weather-section p{
+
+    font-size:17px;
+
+}
+.weather-header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.weather-header h1{
+
+    font-size:64px;
+
+    margin:10px 0;
+
+    color:#0077ff;
+
+}
+
+.weather-header h3{
+
+    font-weight:400;
+
+    color:#666;
+
+    text-transform:capitalize;
+
+}
+
+.weather-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+.card{
+
+    background:#f8fbff;
+
+    border-radius:14px;
+
+    padding:22px;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.card h4{
+
+    color:#0077ff;
+
+    margin-bottom:12px;
+
+}
+
+.card p{
+
+    font-size:22px;
+
+    font-weight:600;
+
+}
+.weather-icon{
+
+    width:100px;
+
+    height:100px;
+
+    margin:10px auto;
+
+    display:block;
+
+}
+/* ===========================
+   Responsive Design
+=========================== */
+
+@media (max-width: 768px) {
+
+    body{
+        padding:20px;
+    }
+
+    .container{
+        padding:25px;
+    }
+
+    header h1{
+        font-size:1.8rem;
+    }
+
+    .weather-header h1{
+        font-size:48px;
+    }
+
+    form{
+        flex-direction:column;
+    }
+
+    input,
+    button{
+        width:100%;
+    }
+
+    .weather-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .container{
+        padding:18px;
+    }
+
+    .weather-header h1{
+        font-size:40px;
+    }
+
+    .weather-icon{
+        width:80px;
+        height:80px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+}

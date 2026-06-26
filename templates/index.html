@@ -6,80 +6,121 @@
     <title>Weather Forecast AI</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<div class="container">
+
     <header>
-        <h1>🌦 Weather Forecast AI</h1>
-        <p>Real-Time Weather Forecast with AI Insights</p>
+
+        <h1>🌦 WeatherSense AI</h1>
+
+        <p>
+            Intelligent Weather Forecasting & Recommendation System
+        </p>
+
     </header>
 
-    <main>
 
-        <section class="search-section">
+    <section class="search-section">
 
-            <form method="POST">
+        <form method="POST">
 
-    <input
-        type="text"
-        name="city"
-        placeholder="Enter city name"
-        required
+            <input
+                type="text"
+                name="city"
+                placeholder="Enter City..."
+                required
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <section class="weather-section">
+
+        {% if weather %}
+
+            {% if weather.success %}
+
+              
+
+<div class="weather-header">
+
+    <h2>{{ weather.city }}, {{ weather.country }}</h2>
+
+    <img
+        src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png"
+        alt="{{ weather.description }}"
+        class="weather-icon"
     >
 
-    <button type="submit">
-        Search
-    </button>
+    <h1>{{ weather.temperature }}°C</h1>
 
-</form>
+    <h3>{{ weather.description }}</h3>
 
-        </section>
+</div>
 
-<section class="weather-section">
+<div class="weather-grid">
 
-    <h2>Weather Information</h2>
+    <div class="card">
+        <h4>🌡 Feels Like</h4>
+        <p>{{ weather.feels_like }}°C</p>
+    </div>
 
-    {% if weather %}
+    <div class="card">
+        <h4>💧 Humidity</h4>
+        <p>{{ weather.humidity }}%</p>
+    </div>
 
-        {% if weather.success %}
+    <div class="card">
+        <h4>🌬 Wind</h4>
+        <p>{{ weather.wind_speed }} km/h</p>
+    </div>
 
-            <h3>{{ weather.city }}, {{ weather.country }}</h3>
+    <div class="card">
+        <h4>👀 Visibility</h4>
+        <p>{{ weather.visibility }} Km</p>
+    </div>
 
-            <p><strong>Temperature:</strong> {{ weather.temperature }} °C</p>
+    <div class="card">
+        <h4>⚖ Pressure</h4>
+        <p>{{ weather.pressure }} hPa</p>
+    </div>
 
-            <p><strong>Feels Like:</strong> {{ weather.feels_like }} °C</p>
+    <div class="card">
+        <h4>🔥 Min / Max</h4>
+        <p>{{ weather.temp_min }}° / {{ weather.temp_max }}°</p>
+    </div>
 
-            <p><strong>Condition:</strong> {{ weather.description }}</p>
+</div>
+            {% else %}
 
-            <p><strong>Humidity:</strong> {{ weather.humidity }} %</p>
+                <p>{{ weather.message }}</p>
 
-            <p><strong>Pressure:</strong> {{ weather.pressure }} hPa</p>
-
-            <p><strong>Wind Speed:</strong> {{ weather.wind_speed }} m/s</p>
-
-            <p><strong>Visibility:</strong> {{ weather.visibility }} m</p>
-
-            <p><strong>Min Temperature:</strong> {{ weather.temp_min }} °C</p>
-
-            <p><strong>Max Temperature:</strong> {{ weather.temp_max }} °C</p>
+            {% endif %}
 
         {% else %}
 
-            <p>{{ weather.message }}</p>
+            <p>
+                Search any city to view live weather.
+            </p>
 
         {% endif %}
 
-    {% else %}
+    </section>
 
-        <p>Search for a city to view the weather.</p>
+</div>
 
-    {% endif %}
-
-</section>
-
-    </main>
-
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>

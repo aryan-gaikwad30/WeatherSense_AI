@@ -28,8 +28,8 @@ def get_weather(city):
         "temp_max": data["main"]["temp_max"],
         "humidity": data["main"]["humidity"],
         "pressure": data["main"]["pressure"],
-        "visibility": data["visibility"],
-        "wind_speed": data["wind"]["speed"],
+        "visibility": round(data["visibility"] / 1000, 1),
+        "wind_speed": round(data["wind"]["speed"] * 3.6, 1),
         "condition": data["weather"][0]["main"],
         "description": data["weather"][0]["description"],
         "icon": data["weather"][0]["icon"]
