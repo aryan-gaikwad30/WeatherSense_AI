@@ -1,3 +1,12 @@
+"""
+Weather Service
+
+Handles communication with the OpenWeatherMap API
+and converts raw API responses into clean,
+application-friendly data structures.
+"""
+
+
 import requests
 from config import Config
 from datetime import datetime

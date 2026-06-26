@@ -223,6 +223,138 @@
 </section>
 
 {% endif %}
+{% if risk %}
+
+<section class="risk-section">
+
+    <h2>🧠 Weather Risk Score</h2>
+
+    <div class="risk-card">
+
+        <h1>{{ risk.score }}/100</h1>
+
+        <h3>{{ risk.level }}</h3>
+
+        <div class="risk-bar">
+
+            <div
+                class="risk-fill {{ risk.color }}"
+                style="width: {{ risk.score | default(0) }}%;"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+{% if risk and risk.reasons %}
+
+<section class="xai-section">
+
+    <h2>🧠 Explainable AI</h2>
+
+    <div class="xai-card">
+
+        <table class="xai-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Factor</th>
+
+                    <th>Impact</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for reason in risk.reasons %}
+
+                <tr>
+
+                    <td>{{ reason.factor }}</td>
+
+                    <td>{{ reason.impact }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+            <tfoot>
+
+                <tr>
+
+                    <td><strong>Total Risk Score</strong></td>
+
+                    <td><strong>{{ risk.score }}</strong></td>
+
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+{% endif %}
+{% if comfort %}
+
+<section class="comfort-section">
+
+    <h2>🏃 Outdoor Comfort Score</h2>
+
+    <div class="comfort-card">
+
+        <h1>{{ comfort.score }}/100</h1>
+
+        <h3>{{ comfort.level }}</h3>
+
+        <div class="comfort-bar">
+
+            <div
+                class="comfort-fill"
+                style="width: {{ comfort.score }}%;"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}
+{% if health %}
+
+<section class="health-section">
+
+    <h2>🩺 Health Advisory</h2>
+
+    <div class="health-card">
+
+        <ul>
+
+            {% for item in health %}
+
+            <li>{{ item }}</li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+</section>
+
+{% endif %}
 
 </div>
 

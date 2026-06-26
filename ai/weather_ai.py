@@ -1,3 +1,11 @@
+"""
+AI Recommendation Engine
+
+Generates explainable weather recommendations
+using rule-based expert system logic.
+"""
+
+
 def generate_summary(weather):
 
     if not weather:
