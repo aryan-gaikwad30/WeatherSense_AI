@@ -77,7 +77,11 @@ def get_forecast(city):
 
                 "description": item["weather"][0]["description"],
 
-                "icon": item["weather"][0]["icon"]
+                "icon": item["weather"][0]["icon"],
+
+                "humidity": item["main"]["humidity"],
+
+                "wind_speed": round(item["wind"]["speed"] * 3.6, 1),
 
             })
 

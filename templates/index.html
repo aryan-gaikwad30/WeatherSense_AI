@@ -6,10 +6,12 @@
     <title>Weather Forecast AI</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <div class="container">
@@ -18,12 +20,9 @@
 
         <h1>🌦 WeatherSense AI</h1>
 
-        <p>
-            Intelligent Weather Forecasting & Recommendation System
-        </p>
+        <p>Intelligent Weather Forecasting & Recommendation System</p>
 
     </header>
-
 
     <section class="search-section">
 
@@ -44,102 +43,62 @@
 
     </section>
 
-
     <section class="weather-section">
 
         {% if weather %}
 
             {% if weather.success %}
 
-              
+                <div class="weather-header">
 
-<div class="weather-header">
+                    <h2>{{ weather.city }}, {{ weather.country }}</h2>
 
-    <h2>{{ weather.city }}, {{ weather.country }}</h2>
+                    <img
+                        src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png"
+                        alt="{{ weather.description }}"
+                        class="weather-icon"
+                    >
 
-    <img
-        src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png"
-        alt="{{ weather.description }}"
-        class="weather-icon"
-    >
+                    <h1>{{ weather.temperature }}°C</h1>
 
-    <h1>{{ weather.temperature }}°C</h1>
+                    <h3>{{ weather.description }}</h3>
 
-    <h3>{{ weather.description }}</h3>
+                </div>
 
-</div>
+                <div class="weather-grid">
 
-<div class="weather-grid">
+                    <div class="card">
+                        <h4>🌡 Feels Like</h4>
+                        <p>{{ weather.feels_like }}°C</p>
+                    </div>
 
-    <div class="card">
-        <h4>🌡 Feels Like</h4>
-        <p>{{ weather.feels_like }}°C</p>
-    </div>
+                    <div class="card">
+                        <h4>💧 Humidity</h4>
+                        <p>{{ weather.humidity }}%</p>
+                    </div>
 
-    <div class="card">
-        <h4>💧 Humidity</h4>
-        <p>{{ weather.humidity }}%</p>
-    </div>
+                    <div class="card">
+                        <h4>🌬 Wind</h4>
+                        <p>{{ weather.wind_speed }} km/h</p>
+                    </div>
 
-    <div class="card">
-        <h4>🌬 Wind</h4>
-        <p>{{ weather.wind_speed }} km/h</p>
-    </div>
+                    <div class="card">
+                        <h4>👀 Visibility</h4>
+                        <p>{{ weather.visibility }} km</p>
+                    </div>
 
-    <div class="card">
-        <h4>👀 Visibility</h4>
-        <p>{{ weather.visibility }} Km</p>
-    </div>
+                    <div class="card">
+                        <h4>⚖ Pressure</h4>
+                        <p>{{ weather.pressure }} hPa</p>
+                    </div>
 
-    <div class="card">
-        <h4>⚖ Pressure</h4>
-        <p>{{ weather.pressure }} hPa</p>
-    </div>
+                    <div class="card">
+                        <h4>🔥 Min / Max</h4>
+                        <p>{{ weather.temp_min }}° / {{ weather.temp_max }}°</p>
+                    </div>
 
-    <div class="card">
-        <h4>🔥 Min / Max</h4>
-        <p>{{ weather.temp_min }}° / {{ weather.temp_max }}°</p>
-    </div>
-    {% if forecast and forecast.success %}
+                </div>
 
-<section class="forecast-section">
-
-    <h2>5-Day Forecast</h2>
-
-    <div class="forecast-grid">
-
-        {% for day in forecast.forecast %}
-
-        <div class="forecast-card">
-
-            <h3>{{ day.date }}</h3>
-
-            <img
-                src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png"
-                alt="{{ day.description }}"
-            >
-
-            <p>{{ day.description.title() }}</p>
-
-            <div class="forecast-temp">
-
-                 <span>{{ day.temp_max }}°</span>
-
-                 <span>{{ day.temp_min }}°</span>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-</section>
-
-{% endif %}
-
-</div>
             {% else %}
 
                 <p>{{ weather.message }}</p>
@@ -148,15 +107,95 @@
 
         {% else %}
 
-            <p>
-                Search any city to view live weather.
-            </p>
+            <p>Search any city to view live weather.</p>
 
         {% endif %}
 
     </section>
 
+    {% if forecast and forecast.success %}
+
+    <section class="forecast-section">
+
+        <h2>5-Day Forecast</h2>
+
+        <div class="forecast-grid">
+
+            {% for day in forecast.forecast %}
+
+            <div class="forecast-card">
+
+                <h3>{{ day.date }}</h3>
+
+                <img
+                    src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png"
+                    alt="{{ day.description }}"
+                >
+
+                <p>{{ day.description.title() }}</p>
+
+                <div class="forecast-temp">
+
+                    <span>{{ day.temp_max }}°</span>
+
+                    <span>{{ day.temp_min }}°</span>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+    <section class="chart-section">
+
+        <h2>Weather Analytics</h2>
+
+        <div class="chart-grid">
+
+            <div class="chart-card">
+
+                <h3>Temperature</h3>
+
+                <canvas id="temperatureChart"></canvas>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h3>Humidity</h3>
+
+                <canvas id="humidityChart"></canvas>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h3>Wind Speed</h3>
+
+                <canvas id="windChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
+
+<script>
+const chartLabels = JSON.parse('{{ chart_labels | default([]) | tojson | safe }}');
+const chartTemps = JSON.parse('{{ chart_temps | default([]) | tojson | safe }}');
+const chartHumidity = JSON.parse('{{ chart_humidity | default([]) | tojson | safe }}');
+const chartWind = JSON.parse('{{ chart_wind | default([]) | tojson | safe }}');
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
