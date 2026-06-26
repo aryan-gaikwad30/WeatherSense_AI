@@ -100,6 +100,44 @@
         <h4>🔥 Min / Max</h4>
         <p>{{ weather.temp_min }}° / {{ weather.temp_max }}°</p>
     </div>
+    {% if forecast and forecast.success %}
+
+<section class="forecast-section">
+
+    <h2>5-Day Forecast</h2>
+
+    <div class="forecast-grid">
+
+        {% for day in forecast.forecast %}
+
+        <div class="forecast-card">
+
+            <h3>{{ day.date }}</h3>
+
+            <img
+                src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png"
+                alt="{{ day.description }}"
+            >
+
+            <p>{{ day.description.title() }}</p>
+
+            <div class="forecast-temp">
+
+                 <span>{{ day.temp_max }}°</span>
+
+                 <span>{{ day.temp_min }}°</span>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
 
 </div>
             {% else %}

@@ -1,5 +1,6 @@
 import requests
 from config import Config
+from datetime import datetime
 
 
 def get_weather(city):
@@ -33,4 +34,54 @@ def get_weather(city):
         "condition": data["weather"][0]["main"],
         "description": data["weather"][0]["description"],
         "icon": data["weather"][0]["icon"]
+    }
+def get_forecast(city):
+
+    params = {
+        "q": city,
+        "appid": Config.OPENWEATHER_API_KEY,
+        "units": "metric"
+    }
+
+    response = requests.get(
+        Config.FORECAST_URL,
+        params=params
+    )
+
+    data = response.json()
+
+    if response.status_code != 200:
+        return {
+            "success": False,
+            "message": data.get("message", "Something went wrong.")
+        }
+
+    forecast = []
+
+    for item in data["list"]:
+
+        if "12:00:00" in item["dt_txt"]:
+
+            forecast.append({
+
+                "date": datetime.strptime(
+                     item["dt_txt"],
+                     "%Y-%m-%d %H:%M:%S"
+                        ).strftime("%a"),
+
+                "temperature": item["main"]["temp"],
+
+                "temp_min": item["main"]["temp_min"],
+
+                "temp_max": item["main"]["temp_max"],
+
+                "description": item["weather"][0]["description"],
+
+                "icon": item["weather"][0]["icon"]
+
+            })
+
+    return {
+        "success": True,
+        "forecast": forecast
     }

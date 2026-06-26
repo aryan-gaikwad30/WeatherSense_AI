@@ -274,3 +274,81 @@ button:hover{
     }
 
 }
+/* ===========================
+   Forecast
+=========================== */
+
+.forecast-section{
+
+    margin-top:45px;
+
+}
+
+.forecast-section h2{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.forecast-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+
+    gap:18px;
+
+}
+
+.forecast-card{
+
+    background:#f8fbff;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.forecast-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.forecast-card img{
+
+    width:70px;
+
+}
+.forecast-temp{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-top:10px;
+
+    font-weight:600;
+
+}
+
+.forecast-card p{
+
+    text-transform:capitalize;
+
+    color:#666;
+
+    margin:10px 0;
+
+}
