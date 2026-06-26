@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from services.weather_service import get_weather, get_forecast
+from ai.weather_ai import generate_summary
 
 app = Flask(__name__)
 
@@ -8,12 +9,15 @@ app = Flask(__name__)
 def home():
     weather = None
     forecast = None
+    ai_summary = None
 
     if request.method == "POST":
         city = request.form.get("city")
 
         if city:
             weather = get_weather(city)
+            if weather.get("success"):
+                ai_summary = generate_summary(weather)
             forecast = get_forecast(city)
 
             for day in forecast.get("forecast", []):
@@ -37,7 +41,8 @@ def home():
         chart_labels=chart_labels,
         chart_temps=chart_temps,
         chart_humidity=chart_humidity,
-        chart_wind=chart_wind
+        chart_wind=chart_wind,
+        ai_summary=ai_summary
     )
 
 if __name__ == "__main__":

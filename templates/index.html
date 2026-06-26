@@ -185,6 +185,44 @@
         </div>
 
     </section>
+    {% if ai_summary %}
+
+<section class="ai-section">
+
+    <h2>🤖 AI Weather Intelligence</h2>
+
+    <div class="ai-grid">
+
+        <div class="ai-card">
+            <h3>🌡 Weather</h3>
+            <p>{{ ai_summary.weather }}</p>
+        </div>
+
+        <div class="ai-card">
+            <h3>👕 Clothing</h3>
+            <p>{{ ai_summary.clothing }}</p>
+        </div>
+
+        <div class="ai-card">
+            <h3>🏃 Activity</h3>
+            <p>{{ ai_summary.activity }}</p>
+        </div>
+
+        <div class="ai-card">
+            <h3>💧 Hydration</h3>
+            <p>{{ ai_summary.hydration }}</p>
+        </div>
+
+        <div class="ai-card warning-card">
+            <h3>⚠ Warning</h3>
+            <p>{{ ai_summary.warning }}</p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}
 
 </div>
 
