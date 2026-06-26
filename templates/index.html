@@ -41,19 +41,27 @@
 
     {% if weather %}
 
-        {% if weather.cod == 200 %}
+        {% if weather.success %}
 
-            <h3>{{ weather.name }}</h3>
+            <h3>{{ weather.city }}, {{ weather.country }}</h3>
 
-            <p><strong>Temperature:</strong> {{ weather.main.temp }} °C</p>
+            <p><strong>Temperature:</strong> {{ weather.temperature }} °C</p>
 
-            <p><strong>Condition:</strong> {{ weather.weather[0].description }}</p>
+            <p><strong>Feels Like:</strong> {{ weather.feels_like }} °C</p>
 
-            <p><strong>Humidity:</strong> {{ weather.main.humidity }} %</p>
+            <p><strong>Condition:</strong> {{ weather.description }}</p>
 
-            <p><strong>Wind Speed:</strong> {{ weather.wind.speed }} m/s</p>
+            <p><strong>Humidity:</strong> {{ weather.humidity }} %</p>
+
+            <p><strong>Pressure:</strong> {{ weather.pressure }} hPa</p>
+
+            <p><strong>Wind Speed:</strong> {{ weather.wind_speed }} m/s</p>
 
             <p><strong>Visibility:</strong> {{ weather.visibility }} m</p>
+
+            <p><strong>Min Temperature:</strong> {{ weather.temp_min }} °C</p>
+
+            <p><strong>Max Temperature:</strong> {{ weather.temp_max }} °C</p>
 
         {% else %}
 
