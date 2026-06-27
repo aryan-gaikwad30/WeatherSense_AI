@@ -60,7 +60,7 @@ def home():
                     risk,
                     comfort,
                     health,
-                    question
+                    question,
                 )
                 gemini_response = ask_gemini(prompt)
 
@@ -88,7 +88,8 @@ def home():
         comfort=comfort,
         health=health,
         air_quality=air_quality,
-        gemini_response=gemini_response
+        gemini_response=gemini_response,
+        
     )
 
 
@@ -137,7 +138,44 @@ def location_weather():
         "air_quality": air_quality
 
     })
+@app.route("/chat", methods=["POST"])
+def chat():
 
+    data = request.get_json()
+
+    weather = data["weather"]
+    forecast = data["forecast"]
+    air_quality = data["air_quality"]
+    risk = data["risk"]
+    comfort = data["comfort"]
+    health = data["health"]
+    question = data["question"]
+    history = data.get("history", [])
+    
+
+   
+    prompt = build_prompt(
+        weather,
+        forecast,
+        air_quality,
+        risk,
+        comfort,
+        health,
+        question,
+        history 
+    )
+
+    answer = ask_gemini(prompt)
+
+    return jsonify({
+
+        "answer": answer
+
+    })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True
+    )

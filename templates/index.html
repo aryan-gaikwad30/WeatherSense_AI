@@ -160,6 +160,9 @@ WeatherSense AI
 
     </section>
 {% if weather %}
+<div class="dashboard-layout">
+
+    <div class="dashboard-main">
     <section class="weather-section">
 
         
@@ -580,30 +583,70 @@ WeatherSense AI
     </div>
 
 </section>
+</div>
+<aside class="ai-sidebar">
 <section class="gemini-section">
 
     <h2>🤖 Ask WeatherSense AI</h2>
 
-    <form method="POST">
+    <form id="chatForm">
 
-        <input
-            type="hidden"
-            name="city"
-            value="{{ weather.city }}"
-        >
+    <input
+        type="hidden"
+        name="city"
+        value="{{ weather.city }}"
+    >
+
+    <div class="suggestions">
+
+        <h4>💡 Suggested Questions</h4>
+
+        <button type="button" class="suggestion">
+            🏃 Can I go jogging today?
+        </button>
+
+        <button type="button" class="suggestion">
+            ☂ Should I carry an umbrella?  
+        </button>
+
+        <button type="button" class="suggestion">
+           👕 What should I wear?
+        </button>
+
+        <button type="button" class="suggestion">
+            🚗 Is today good for travelling?
+        </button>
+
+    </div>
+
+    <div id="chatMessages">
+
+        <div class="ai-message">
+
+            👋 Hi! Ask me anything about today's weather.
+
+        </div>
+
+    </div>
+
+    <div class="chat-input">
 
         <textarea
-            name="question"
-            rows="4"
-            placeholder="Ask anything about today's weather..."></textarea>
+            id="chatInput"
+            rows="2"
+            placeholder="Ask WeatherSense AI..."></textarea>
 
-        <button type="submit">
+        <button
+            type="button"
+            id="sendBtn">
 
-            Ask AI
+            ➜
 
         </button>
 
-    </form>
+    </div>
+
+</form>
 
     {% if gemini_response %}
 
@@ -616,6 +659,8 @@ WeatherSense AI
     {% endif %}
 
 </section>
+</aside>
+</div>
 {% endif %}
 {% endif %}
 </div>
@@ -628,7 +673,14 @@ const chartWind = JSON.parse('{{ chart_wind | default([]) | tojson | safe }}');
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script>
+const weatherData = JSON.parse('{{ weather | default({}) | tojson | safe }}');
+const forecastData = JSON.parse('{{ forecast | default([]) | tojson | safe }}');
+const airQualityData = JSON.parse('{{ air_quality | default({}) | tojson | safe }}');
+const riskData = JSON.parse('{{ risk | default({}) | tojson | safe }}');
+const comfortData = JSON.parse('{{ comfort | default({}) | tojson | safe }}');
+const healthData = JSON.parse('{{ health | default({}) | tojson | safe }}');
+</script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
