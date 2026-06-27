@@ -9,3 +9,4 @@ class Config:
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
     FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast"
     AIR_POLLUTION_URL = "https://api.openweathermap.org/data/2.5/air_pollution"
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

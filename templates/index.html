@@ -580,6 +580,42 @@ WeatherSense AI
     </div>
 
 </section>
+<section class="gemini-section">
+
+    <h2>🤖 Ask WeatherSense AI</h2>
+
+    <form method="POST">
+
+        <input
+            type="hidden"
+            name="city"
+            value="{{ weather.city }}"
+        >
+
+        <textarea
+            name="question"
+            rows="4"
+            placeholder="Ask anything about today's weather..."></textarea>
+
+        <button type="submit">
+
+            Ask AI
+
+        </button>
+
+    </form>
+
+    {% if gemini_response %}
+
+    <div class="gemini-answer">
+
+        {{ gemini_response }}
+
+    </div>
+
+    {% endif %}
+
+</section>
 {% endif %}
 {% endif %}
 </div>

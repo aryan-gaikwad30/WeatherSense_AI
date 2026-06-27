@@ -10,6 +10,8 @@ from ai.weather_ai import generate_summary
 from ai.risk_engine import calculate_risk
 from ai.comfort_engine import calculate_comfort
 from ai.health_engine import generate_health_advisory
+from ai.prompt_builder import build_prompt
+from ai.gemini_engine import ask_gemini
 
 from services.air_quality_service import get_air_quality
 
@@ -28,6 +30,7 @@ def home():
     health = None
     air_quality = None
     city = None
+    gemini_response = None
 
     if request.method == "POST":
         city = request.form.get("city")
@@ -46,8 +49,20 @@ def home():
                 weather["latitude"],
                 weather["longitude"]
             )
+            forecast = get_forecast(city)
+            question = request.form.get("question")
 
-        forecast = get_forecast(city)
+            if question:
+                prompt = build_prompt(
+                    weather,
+                    forecast,
+                    air_quality,
+                    risk,
+                    comfort,
+                    health,
+                    question
+                )
+                gemini_response = ask_gemini(prompt)
 
     chart_labels = []
     chart_temps = []
@@ -72,7 +87,8 @@ def home():
         risk=risk,
         comfort=comfort,
         health=health,
-        air_quality=air_quality
+        air_quality=air_quality,
+        gemini_response=gemini_response
     )
 
 

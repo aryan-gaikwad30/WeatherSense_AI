@@ -1203,3 +1203,42 @@ header h1{
     font-weight:600;
 
 }
+.gemini-section{
+
+    margin-top:60px;
+
+}
+
+.gemini-section textarea{
+
+    width:100%;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    resize:none;
+
+    font-size:16px;
+
+    margin:15px 0;
+
+    border:1px solid #ddd;
+
+}
+
+.gemini-answer{
+
+    margin-top:25px;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    line-height:1.8;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
