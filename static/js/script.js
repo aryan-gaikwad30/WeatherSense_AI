@@ -78,3 +78,88 @@ createLineChart(
     "Wind Speed (km/h)",
     chartWind
 );
+// ==========================
+// Geolocation
+// ==========================
+
+const locationBtn = document.getElementById("locationBtn");
+
+if (locationBtn) {
+
+    locationBtn.addEventListener("click", () => {
+
+        if (!navigator.geolocation) {
+
+            alert("Geolocation is not supported.");
+
+            return;
+
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            async (position) => {
+
+                const latitude = position.coords.latitude;
+
+                const longitude = position.coords.longitude;
+
+                const response = await fetch("/location", {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        latitude,
+
+                        longitude
+
+                    })
+
+                });
+
+                if (!response.ok) {
+
+                    alert("Unable to fetch your location weather.");
+
+                    return;
+
+                }
+
+                // Simplest approach for now:
+                // reload the page with detected city.
+
+                const data = await response.json();
+
+                window.location.href = "/?city=" + encodeURIComponent(data.weather.city);
+
+            },
+
+            () => {
+
+                alert("Location permission denied.");
+
+            }
+
+        );
+
+    });
+
+}
+const form = document.querySelector("form");
+
+if(form){
+
+    form.addEventListener("submit",()=>{
+
+        document.getElementById("loadingSpinner").style.display="block";
+
+    });
+
+}

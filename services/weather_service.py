@@ -38,6 +38,8 @@ def get_weather(city):
         "temp_max": data["main"]["temp_max"],
         "humidity": data["main"]["humidity"],
         "pressure": data["main"]["pressure"],
+        "latitude": data["coord"]["lat"],
+        "longitude": data["coord"]["lon"],
         "visibility": round(data["visibility"] / 1000, 1),
         "wind_speed": round(data["wind"]["speed"] * 3.6, 1),
         "condition": data["weather"][0]["main"],
@@ -98,3 +100,74 @@ def get_forecast(city):
         "success": True,
         "forecast": forecast
     }
+def get_weather_by_coordinates(latitude, longitude):
+
+    url = (
+        f"{Config.BASE_URL}"
+        f"?lat={latitude}"
+        f"&lon={longitude}"
+        f"&appid={Config.OPENWEATHER_API_KEY}"
+        f"&units=metric"
+    )
+
+    try:
+
+        response = requests.get(url)
+
+        data = response.json()
+
+        if response.status_code != 200:
+
+            return {
+
+                "success": False,
+
+                "message": data.get("message", "Unable to fetch weather.")
+
+            }
+
+        return {
+
+            "success": True,
+
+            "city": data["name"],
+
+            "country": data["sys"]["country"],
+
+            "temperature": data["main"]["temp"],
+
+            "feels_like": data["main"]["feels_like"],
+
+            "humidity": data["main"]["humidity"],
+
+            "pressure": data["main"]["pressure"],
+
+            "wind_speed": data["wind"]["speed"],
+
+            "condition": data["weather"][0]["main"],
+
+            "description": data["weather"][0]["description"],
+
+            "icon": data["weather"][0]["icon"],
+
+            "latitude": data["coord"]["lat"],
+
+            "longitude": data["coord"]["lon"]
+
+        }
+        print("Condition:", data["weather"][0]["main"])
+        print("Description:", data["weather"][0]["description"])
+        print("Icon:", data["weather"][0]["icon"])  
+
+    except Exception as e:
+
+        print(e)
+
+
+    return {
+
+            "success": False,
+
+            "message": "Unable to fetch weather."
+
+        }

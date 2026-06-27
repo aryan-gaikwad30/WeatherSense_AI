@@ -18,7 +18,13 @@
 
     <header>
 
-        <h1>🌦 WeatherSense AI</h1>
+        <h1>
+
+<span class="logo-sun">☀️</span>
+
+WeatherSense AI
+
+</h1>
 
         <p>Intelligent Weather Forecasting & Recommendation System</p>
 
@@ -27,6 +33,7 @@
     <section class="search-section">
 
         <form method="POST">
+            <div class="search-row">
 
             <input
                 type="text"
@@ -34,18 +41,128 @@
                 placeholder="Enter City..."
                 required
             >
+          
 
             <button type="submit">
                 Search
             </button>
+            </div>
+            <div id="loadingSpinner" class="loading-spinner" style="display:none;">
+    Loading weather...
+</div>
+            <div class="location-container">
+
+    <button
+        type="button"
+        id="locationBtn"
+        class="location-btn">
+
+        📍 Use My Current Location
+
+    </button>
+
+</div>
 
         </form>
+        {% if not weather %}
+
+<section class="hero-section">
+
+    <div class="hero-image">
+
+        <img
+            src="{{ url_for('static', filename='images/weather-hero.svg') }}"
+            alt="Weather Illustration">
+
+    </div>
+
+    <h2>Welcome to WeatherSense AI</h2>
+
+    <p>
+
+        Search for any city or use your current location
+
+        <br><br>
+
+        to get live weather updates, forecasts,
+
+        analytics and AI-powered recommendations.
+
+    </p>
+
+    <div class="feature-title">
+
+        <span></span>
+
+        <h3>Features</h3>
+
+        <span></span>
+
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-item">
+
+            🌤
+
+            <h4>Live Weather</h4>
+
+            <p>Real-time weather conditions</p>
+
+        </div>
+
+        <div class="feature-item">
+
+            📅
+
+            <h4>5-Day Forecast</h4>
+
+            <p>Detailed daily forecast</p>
+
+        </div>
+
+        <div class="feature-item">
+
+            📊
+
+            <h4>Weather Analytics</h4>
+
+            <p>Temperature, humidity and wind charts</p>
+
+        </div>
+
+        <div class="feature-item">
+
+            🧠
+
+            <h4>AI Recommendations</h4>
+
+            <p>Smart weather advice</p>
+
+        </div>
+
+        <div class="feature-item">
+
+            🌍
+
+            <h4>Air Quality</h4>
+
+            <p>Estimated AQI and pollution insights</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}
 
     </section>
-
+{% if weather %}
     <section class="weather-section">
 
-        {% if weather %}
+        
 
             {% if weather.success %}
 
@@ -53,11 +170,37 @@
 
                     <h2>{{ weather.city }}, {{ weather.country }}</h2>
 
-                    <img
-                        src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png"
-                        alt="{{ weather.description }}"
-                        class="weather-icon"
-                    >
+                    {% if weather.condition == "Clear" %}
+
+<img src="{{ url_for('static', filename='icons/sun.svg') }}"
+     class="weather-icon">
+
+{% elif weather.condition == "Clouds" %}
+
+<img src="{{ url_for('static', filename='icons/cloud.svg') }}"
+     class="weather-icon">
+
+{% elif weather.condition in ["Rain","Drizzle"] %}
+
+<img src="{{ url_for('static', filename='icons/rain.svg') }}"
+     class="weather-icon">
+
+{% elif weather.condition == "Thunderstorm" %}
+
+<img src="{{ url_for('static', filename='icons/storm.svg') }}"
+     class="weather-icon">
+
+{% elif weather.condition == "Snow" %}
+
+<img src="{{ url_for('static', filename='icons/snow.svg') }}"
+     class="weather-icon">
+
+{% else %}
+
+<img src="{{ url_for('static', filename='icons/mist.svg') }}"
+     class="weather-icon">
+
+{% endif %}
 
                     <h1>{{ weather.temperature }}°C</h1>
 
@@ -105,11 +248,6 @@
 
             {% endif %}
 
-        {% else %}
-
-            <p>Search any city to view live weather.</p>
-
-        {% endif %}
 
     </section>
 
@@ -127,10 +265,31 @@
 
                 <h3>{{ day.date }}</h3>
 
-                <img
-                    src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png"
-                    alt="{{ day.description }}"
-                >
+                {% if "01" in day.icon %}
+
+<img src="{{ url_for('static', filename='icons/sun.svg') }}">
+
+{% elif "02" in day.icon or "03" in day.icon or "04" in day.icon %}
+
+<img src="{{ url_for('static', filename='icons/cloud.svg') }}">
+
+{% elif "09" in day.icon or "10" in day.icon %}
+
+<img src="{{ url_for('static', filename='icons/rain.svg') }}">
+
+{% elif "11" in day.icon %}
+
+<img src="{{ url_for('static', filename='icons/storm.svg') }}">
+
+{% elif "13" in day.icon %}
+
+<img src="{{ url_for('static', filename='icons/snow.svg') }}">
+
+{% else %}
+
+<img src="{{ url_for('static', filename='icons/mist.svg') }}">
+
+{% endif %}
 
                 <p>{{ day.description.title() }}</p>
 
@@ -151,6 +310,8 @@
     </section>
 
     {% endif %}
+
+    {% if forecast and forecast.success %}
 
     <section class="chart-section">
 
@@ -185,6 +346,7 @@
         </div>
 
     </section>
+    {% endif %}
     {% if ai_summary %}
 
 <section class="ai-section">
@@ -355,7 +517,71 @@
 </section>
 
 {% endif %}
+{% if air_quality and air_quality.success %}
 
+
+
+<section class="aqi-section">
+
+    <h2>🌍 Air Quality</h2>
+
+    <div class="aqi-card">
+
+        <div class="aqi-score">
+
+            <h1>{{ air_quality.estimated_aqi }}</h1>
+
+            <h3>{{ air_quality.category }}</h3>
+
+            <p>
+                OpenWeather Index:
+                {{ air_quality.aqi }}/5
+            </p>
+
+        </div>
+
+        <div class="aqi-progress">
+
+            <div
+                class="aqi-fill {{ air_quality.color }}"
+                style="width: {{ (air_quality.estimated_aqi / 500) * 100 }}%;"
+            ></div>
+
+        </div>
+
+        <div class="aqi-details">
+
+            <div class="aqi-item">
+
+                <strong>PM2.5</strong>
+
+                <span>{{ air_quality.pm2_5 }} µg/m³</span>
+
+            </div>
+
+            <div class="aqi-item">
+
+                <strong>PM10</strong>
+
+                <span>{{ air_quality.pm10 }} µg/m³</span>
+
+            </div>
+
+            <div class="aqi-item">
+
+                <strong>CO</strong>
+
+                <span>{{ air_quality.co }} µg/m³</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endif %}
+{% endif %}
 </div>
 
 <script>

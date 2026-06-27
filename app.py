@@ -1,37 +1,53 @@
-from flask import Flask, render_template, request
-from services.weather_service import get_weather, get_forecast
+from flask import Flask, render_template, request, jsonify
+
+from services.weather_service import (
+    get_weather,
+    get_forecast,
+    get_weather_by_coordinates
+)
+
 from ai.weather_ai import generate_summary
 from ai.risk_engine import calculate_risk
 from ai.comfort_engine import calculate_comfort
 from ai.health_engine import generate_health_advisory
+
+from services.air_quality_service import get_air_quality
+
 
 app = Flask(__name__)
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+
     weather = None
     forecast = None
     ai_summary = None
     risk = None
     comfort = None
     health = None
+    air_quality = None
+    city = None
 
     if request.method == "POST":
         city = request.form.get("city")
+    elif request.method == "GET":
+        city = request.args.get("city")
 
-        if city:
-            weather = get_weather(city)
-            if weather.get("success"):
-                ai_summary = generate_summary(weather)
-                risk = calculate_risk(weather)
-                
-                comfort = calculate_comfort(weather)
-                health = generate_health_advisory(weather)
-            forecast = get_forecast(city)
+    if city:
+        weather = get_weather(city)
 
-            for day in forecast.get("forecast", []):
-                print(day)
+        if weather.get("success"):
+            ai_summary = generate_summary(weather)
+            risk = calculate_risk(weather)
+            comfort = calculate_comfort(weather)
+            health = generate_health_advisory(weather)
+            air_quality = get_air_quality(
+                weather["latitude"],
+                weather["longitude"]
+            )
+
+        forecast = get_forecast(city)
 
     chart_labels = []
     chart_temps = []
@@ -55,8 +71,57 @@ def home():
         ai_summary=ai_summary,
         risk=risk,
         comfort=comfort,
-        health=health
+        health=health,
+        air_quality=air_quality
     )
+
+
+@app.route("/location", methods=["POST"])
+def location_weather():
+
+    data = request.get_json()
+
+    latitude = data.get("latitude")
+    longitude = data.get("longitude")
+
+    weather = get_weather_by_coordinates(latitude, longitude)
+
+    if not weather["success"]:
+        return jsonify(weather), 400
+
+    forecast = get_forecast(weather["city"])
+
+    ai_summary = generate_summary(weather)
+
+    risk = calculate_risk(weather)
+
+    comfort = calculate_comfort(weather)
+
+    health = generate_health_advisory(weather)
+
+    air_quality = get_air_quality(
+        weather["latitude"],
+        weather["longitude"]
+    )
+
+    return jsonify({
+
+        "weather": weather,
+
+        "forecast": forecast,
+
+        "ai_summary": ai_summary,
+
+        "risk": risk,
+
+        "comfort": comfort,
+
+        "health": health,
+
+        "air_quality": air_quality
+
+    })
+
 
 if __name__ == "__main__":
     app.run(debug=True)
